@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Dashboard</h2>
+
+<div class="grid grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded shadow">
+        <h3 class="text-gray-500">Produits</h3>
+        <p id="products-count" class="text-3xl font-bold">0</p>
+    </div>
+
+    <div class="bg-white p-6 rounded shadow">
+        <h3 class="text-gray-500">Commandes</h3>
+        <p id="orders-count" class="text-3xl font-bold">0</p>
+    </div>
+
+    <div class="bg-white p-6 rounded shadow">
+        <h3 class="text-gray-500">Chiffre d'affaires</h3>
+        <p id="revenue" class="text-3xl font-bold">0</p>
+    </div>
+</div>
+
+<script>
+Promise.all([
+    fetch('/api/products/').then(r => r.json()),
+    fetch('/api/orders/').then(r => r.json())
+]).then(([products, orders]) => {
+    document.getElementById('products-count').innerText = products.length;
+    document.getElementById('orders-count').innerText = orders.length;
+
+    const total = orders.reduce((sum, o) => sum + parseFloat(o.total_amount), 0);
+    document.getElementById('revenue').innerText = total + " €";
+});
+</script>
+{% endblock %}
