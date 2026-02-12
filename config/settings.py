@@ -116,7 +116,11 @@ REST_FRAMEWORK = {
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://striking-reprieve.railway.app",
+    "https://railway.app",
+    "https://*.railway.app"
+]
 
 # Email settings (pour notifications)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
